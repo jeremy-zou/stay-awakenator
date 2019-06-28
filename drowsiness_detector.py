@@ -1,13 +1,10 @@
 import imutils
 import dlib
 import cv2
+import drowsiness_detector_config as cfg
 from scipy.spatial import distance as dist
 from imutils import face_utils
 from imutils.video import VideoStream
-
-
-EYE_ASPECT_RATIO_THRESHOLD = 0.25
-CLOSED_EYE_FRAMES_THRESHOLD = 180
 
 
 def main():
@@ -23,7 +20,8 @@ def main():
 
     # start the video stream
     print("[INFO] starting video stream thread...")
-    vs = VideoStream().start()
+    print("[INFO] press q to quit")
+    vs = VideoStream().start(src=cfg.VIDEO_CAMERA)
 
     closed_frames = 0
     while True:
@@ -57,10 +55,10 @@ def main():
             ear = (left_eye_aspect_ratio + right_eye_aspect_ratio) / 2.0
 
             # if eyes are smaller than threshold
-            if ear < EYE_ASPECT_RATIO_THRESHOLD:
+            if ear < cfg.EYE_ASPECT_RATIO_THRESHOLD:
                 closed_frames += 1
                 # if eyes are smaller than threshold for longer than predefined amount of frames
-                if closed_frames >= CLOSED_EYE_FRAMES_THRESHOLD:
+                if closed_frames >= cfg.CLOSED_EYE_FRAMES_THRESHOLD:
                     cv2.putText(frame, "DETECTED DROWSINESS", (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 2)
             # if eyes are larger than threshold
             else:
