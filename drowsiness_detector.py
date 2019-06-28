@@ -21,7 +21,7 @@ def main():
     # start the video stream
     print("[INFO] starting video stream thread...")
     print("[INFO] press q to quit")
-    vs = VideoStream()rc=cfg.VIDEO_CAMERA.start()
+    vs = VideoStream(src=cfg.VIDEO_CAMERA).start()
 
     closed_frames = 0
     while True:
