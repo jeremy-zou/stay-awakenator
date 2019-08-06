@@ -8,5 +8,5 @@ setup(
     license='',
     author='Jeremy Zou',
     author_email='',
-    description='', install_requires=['imutils', 'cmake' 'dlib', 'opencv-python', 'scipy']
+    description='', install_requires=['imutils', 'cmake', 'dlib', 'opencv-python', 'scipy']
 )
