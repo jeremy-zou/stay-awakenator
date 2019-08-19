@@ -2,12 +2,15 @@ import imutils
 import dlib
 import cv2
 import drowsiness_detector_config as cfg
+from shock_collar.shock_collar import Shock
 from scipy.spatial import distance as dist
 from imutils import face_utils
 from imutils.video import VideoStream
 
 
 def main():
+    shocker = Shock()
+    
     # initialize dlib's facial detector
     face_detector = dlib.get_frontal_face_detector()
 
@@ -60,6 +63,7 @@ def main():
                 # if eyes are smaller than threshold for longer than predefined amount of frames
                 if closed_frames >= cfg.CLOSED_EYE_FRAMES_THRESHOLD:
                     cv2.putText(frame, "DETECTED DROWSINESS", (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 2)
+                shocker.transmit(4, 30)
             # if eyes are larger than threshold
             else:
                 closed_frames = 0
