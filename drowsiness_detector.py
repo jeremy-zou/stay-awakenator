@@ -79,7 +79,6 @@ def start(mode_, power_):
                     cv2.putText(frame, "DETECTED DROWSINESS", (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 2)
                     if closed_frames == cfg.CLOSED_EYE_FRAMES_THRESHOLD + 2:
                         shocker.transmit(2, 1)
-                        print(mode_, power_)
                         shocker.transmit(int(mode_), int(power_))
             # if eyes are larger than threshold
             else:
