@@ -1,6 +1,7 @@
 import imutils
 import dlib
 import cv2
+import argparse
 import drowsiness_detector_config as cfg
 from shock_collar.shock_collar import Shock
 from scipy.spatial import distance as dist
@@ -24,6 +25,7 @@ def main():
     # start the video stream
     print("[INFO] starting video stream thread...")
     print("[INFO] press q to quit")
+    print("[INFO] press c to pair")
     vs = VideoStream(src=cfg.VIDEO_CAMERA).start()
 
     closed_frames = 0
@@ -63,7 +65,9 @@ def main():
                 # if eyes are smaller than threshold for longer than predefined amount of frames
                 if closed_frames >= cfg.CLOSED_EYE_FRAMES_THRESHOLD:
                     cv2.putText(frame, "DETECTED DROWSINESS", (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 2)
-                shocker.transmit(4, 30)
+                    if closed_frames == cfg.CLOSED_EYE_FRAMES_THRESHOLD + 2:
+                        shocker.transmit(2, 1)
+                        shocker.transmit(4, 50)
             # if eyes are larger than threshold
             else:
                 closed_frames = 0
@@ -74,6 +78,8 @@ def main():
         # show each frame for 1ms
         cv2.imshow("Frame", frame)
         keypress = cv2.waitKey(1)
+        if keypress == ord('c'):
+            shocker.transmit(1,0)
         if keypress == ord('q'):
             break
 

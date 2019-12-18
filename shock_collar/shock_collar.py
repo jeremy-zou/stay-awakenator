@@ -97,7 +97,6 @@ class Shock():
         key_sequence = self.key
         
         sequence = channel_sequence + mode_sequnce + key_sequence + power_binary + mode_sequnce_inverse + channel_sequence_inverse + "0"
-        print(sequence)
         while self.pi.wave_tx_busy(): # wait for prior waveform to be sent
             time.sleep(0.2)
         self.transmitter(sequence,time_)
