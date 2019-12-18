@@ -8,8 +8,20 @@ from scipy.spatial import distance as dist
 from imutils import face_utils
 from imutils.video import VideoStream
 
-
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m",
+                        help="1=flash light, 2=beep, 3=vibrate, 4=shock",
+                        action='store',
+                        dest='mode')
+    parser.add_argument("-p",
+                        help="Power level percent",
+                        action='store',
+                        dest='power')
+    args = parser.parse_args()
+    start(args.mode, args.power)
+
+def start(mode_, power_):
     shocker = Shock()
     
     # initialize dlib's facial detector
@@ -67,7 +79,8 @@ def main():
                     cv2.putText(frame, "DETECTED DROWSINESS", (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), 2)
                     if closed_frames == cfg.CLOSED_EYE_FRAMES_THRESHOLD + 2:
                         shocker.transmit(2, 1)
-                        shocker.transmit(4, 50)
+                        print(mode_, power_)
+                        shocker.transmit(int(mode_), int(power_))
             # if eyes are larger than threshold
             else:
                 closed_frames = 0
