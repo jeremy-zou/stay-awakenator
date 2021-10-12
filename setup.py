@@ -9,5 +9,5 @@ setup(
     author='Jeremy Zou',
     author_email='',
     description='',
-    install_requires=['numpy', 'imutils', 'cmake', 'dlib', 'pigpio', 'scipy==1.3.3', 'opencv-python==3.4.6.27']
+    install_requires=['numpy', 'imutils', 'cmake', 'dlib', 'pigpio', 'scipy==1.3.3', 'opencv-python==4.2.0.32']
 )
